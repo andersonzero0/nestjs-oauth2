@@ -1,0 +1,36 @@
+### Create User
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "test2",
+  "password": "test"
+}
+
+### Find All Users
+GET http://localhost:3000/users
+
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "test2",
+  "password": "test"
+}
+
+### Create Post
+POST http://localhost:3000/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTRkNzExLTY4MWItNzIyYS04NThjLTRiMTI5OGU5MWE4MiIsInBlcm1pc3Npb25zIjpbIkNyZWF0ZVBvc3QiLCJSZWFkUG9zdCIsIlVwZGF0ZVBvc3QiLCJEZWxldGVQb3N0Il0sImlhdCI6MTczODc5MDA3OCwiZXhwIjoxNzM4ODc2NDc4LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJzdWIiOiJhdXRoIn0.ggO6k1qk5zWqOyJnwFfLF0d__xTKUw32YrvVD9aS-6E
+
+{
+  "title": "Post 3",
+  "content": "Content 1"
+}
+
+### Find All Posts
+GET http://localhost:3000/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTRkNzExLTY4MWItNzIyYS04NThjLTRiMTI5OGU5MWE4MiIsInBlcm1pc3Npb25zIjpbIkNyZWF0ZVBvc3QiLCJSZWFkUG9zdCIsIlVwZGF0ZVBvc3QiLCJEZWxldGVQb3N0Il0sImlhdCI6MTczODc5MDA3OCwiZXhwIjoxNzM4ODc2NDc4LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJzdWIiOiJhdXRoIn0.ggO6k1qk5zWqOyJnwFfLF0d__xTKUw32YrvVD9aS-6E
