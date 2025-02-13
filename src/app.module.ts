@@ -14,7 +14,7 @@ import { GrantCodesModule } from './modules/grant-codes/grant-codes.module';
   imports: [
     MikroOrmModule.forRoot({
       entities: [UserEntity, PostEntity, ApplicationsEntity, GrantCodesModule],
-      dbName: 'db.sqlite3',
+      dbName: '/tmp/db.sqlite',
       driver: SqliteDriver,
     }),
     AuthModule,
