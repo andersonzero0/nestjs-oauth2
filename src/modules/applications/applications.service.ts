@@ -120,7 +120,7 @@ export class ApplicationsService {
 
   async generateAccessToken(clientId: string): Promise<string> {
     return await this.jwtService.signAsync({
-      clientId,
+      client_id: clientId,
     });
   }
 }

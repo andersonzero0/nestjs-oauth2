@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEnum,
+  IsJWT,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -24,6 +25,10 @@ export enum ResponseType {
   Code = 'code',
 }
 
+export enum GrantType {
+  AuthorizationCode = 'authorization_code',
+}
+
 export class AuthorizeInputDTO {
   @ApiProperty()
   @IsString()
@@ -44,4 +49,26 @@ export class AuthorizeInputDTO {
   @IsEnum(PostsPermissions)
   @IsNotEmpty()
   scope: PostsPermissions;
+}
+
+export class RequestAccessTokenInputDTO {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  client_id: string;
+
+  @ApiProperty()
+  @IsJWT()
+  @IsNotEmpty()
+  client_secret: string;
+
+  @ApiProperty({ enum: GrantType })
+  @IsEnum(GrantType)
+  @IsNotEmpty()
+  grant_type: GrantType;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  code: string;
 }

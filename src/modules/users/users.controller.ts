@@ -16,6 +16,7 @@ export class UsersController {
     return this.userService.create(data);
   }
 
+  @Public()
   @ApiOperation({ summary: 'Get all users' })
   @Get()
   async findAll() {

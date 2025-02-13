@@ -6,7 +6,10 @@ import { IJwtPayload } from './interfaces/auth.interfaces';
 import { Request } from 'express';
 import { PostsPermissions } from '../modules/posts/permissions/post.permissions.enum';
 import { GrantCodesService } from '../modules/grant-codes/grant-codes.service';
-import { AuthorizeInputDTO } from './dto/auth.input.dto';
+import {
+  AuthorizeInputDTO,
+  RequestAccessTokenInputDTO,
+} from './dto/auth.input.dto';
 import { ApplicationsService } from '../modules/applications/applications.service';
 
 @Injectable()
@@ -64,6 +67,37 @@ export class AuthService {
     }
 
     return { code: grantCode, callback_url };
+  }
+
+  async requestAccessToken(data: RequestAccessTokenInputDTO) {
+    const { client_id, client_secret, code } = data;
+
+    const client_id_decoded = this.jwtService.verify(client_secret);
+
+    if (client_id_decoded.client_id !== client_id) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const grantCode = await this.grantCodesService.findGrantCode(
+      code,
+      client_id,
+    );
+
+    if (!grantCode.activated) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    console.log(grantCode.scope);
+
+    const payload: IJwtPayload = {
+      id: grantCode.user.id,
+      permissions: [grantCode.scope],
+      applicationId: grantCode.application.id,
+    };
+
+    const token = await this.jwtService.signAsync(payload);
+
+    return { token };
   }
 
   extractTokenFromHeader(request: Request): string | undefined {

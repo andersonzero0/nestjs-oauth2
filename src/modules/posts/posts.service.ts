@@ -29,9 +29,10 @@ export class PostsService {
     return post;
   }
 
-  async findAllPosts(authorId: string): Promise<PostEntity[]> {
+  async findAllPosts(authorId: string): Promise<Omit<PostEntity, 'author'>[]> {
     return this.postsRepository.findAll({
       where: { author: authorId },
+      exclude: ['author'],
     });
   }
 

@@ -4,8 +4,9 @@ import { CreatePostInputDTO } from './dto/posts.input.dto';
 import { RequestType } from '../../infra/http/http.interfaces';
 import { Permissions } from '../../auth/decorators/permissions.decorator';
 import { PostsPermissions } from './permissions/post.permissions.enum';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {

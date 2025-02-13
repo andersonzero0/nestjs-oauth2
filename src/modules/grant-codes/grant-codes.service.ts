@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { GrantCodesRepository } from './repository/grant-codes.repository';
 import { PostsPermissions } from '../posts/permissions/post.permissions.enum';
 import { ApplicationsRepository } from '../applications/repository/applications.repository';
 import { UserRepository } from '../users/repository/users.repository';
 import { EntityManager } from '@mikro-orm/sqlite';
 import * as bcrypt from 'bcrypt';
+import { GrantCodesEntity } from './entity/grant-codes.entity';
 
 @Injectable()
 export class GrantCodesService {
@@ -30,6 +31,7 @@ export class GrantCodesService {
 
       if (grantCodeExists) {
         grantCodeExists.activated = true;
+        grantCodeExists.scope = scope;
         await this.em.persistAndFlush(grantCodeExists);
         return grantCodeExists.code;
       }
@@ -75,6 +77,24 @@ export class GrantCodesService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async findGrantCode(
+    code: string,
+    client_id: string,
+  ): Promise<GrantCodesEntity> {
+    const grant_code = await this.grantCodesRepository.findOne(
+      { code, application: { clientId: client_id } },
+      {
+        populate: ['user', 'application'],
+      },
+    );
+
+    if (!grant_code) {
+      throw new NotFoundException('Grant code not found');
+    }
+
+    return grant_code;
   }
 
   async generateCode() {
